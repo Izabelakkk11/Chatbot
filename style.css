@@ -1,0 +1,157 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #0b0e17;
+    margin: 0;
+    padding: 0;
+    color: #e4e6eb;
+    overflow: hidden;
+}
+
+#particles-js {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: #0b0e17;
+    z-index: -1;
+    top: 0;
+    left: 0;
+}
+
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background: transparent;
+    box-sizing: border-box;
+    position: relative;
+    z-index: 1;
+}
+
+.header {
+    background-color: #45a29e;
+    color: #ffffff;
+    text-align: center;
+    padding: 15px;
+    font-size: 22px;
+    font-weight: 700;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.header .java-icon {
+    color: #66fcf1;
+    margin-right: 10px;
+    font-size: 28px;
+}
+
+.chat-box {
+    flex: 1;
+    background-color: #1f2833;
+    padding: 20px;
+    border: 1px solid #4b6e79;
+    border-radius: 10px;
+    margin: 20px auto;
+    max-width: 900px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+    overflow-y: hidden;
+    max-height: 675px;
+}
+
+.messages {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    height: 60vh;
+    overflow-y: auto;
+    background: #0b0e17;
+    border: 1px solid #29303d;
+    padding: 10px 20px;
+    border-radius: 10px;
+    display: inline-block;
+}
+
+.messages::-webkit-scrollbar {
+    width: 8px;
+}
+
+.messages::-webkit-scrollbar-track {
+    background: #29303d;
+}
+
+.messages::-webkit-scrollbar-thumb {
+    background: #45a29e;
+    border-radius: 4px;
+}
+.chat-container, .chat-box {
+    overflow: hidden !important;
+    scrollbar-width: none; 
+    -ms-overflow-style: none; 
+}
+.messages li {
+    margin: 10px;
+    padding: 12px;
+    border-radius: 6px;
+}
+
+.user-msg {
+    text-align: right;
+}
+
+.user-msg .message {
+    background-color: #29304d;
+    color: #e4e6eb;
+}
+
+.bot-msg {
+    text-align: left;
+}
+
+.bot-msg .message {
+    background-color: #29303d;
+    color: #e4e6eb;
+}
+
+.input-box {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px;
+    background-color: #1f2833;
+    border-top: 2px solid #45a29e;
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.input-box input {
+    flex: 1;
+    padding: 10px;
+    margin-right: 10px;
+    border: 2px solid #45a29e;
+    border-radius: 5px;
+    background: #0b0e17;
+    color: #ffffff;
+    font-size: 16px;
+}
+
+.input-box button {
+    background-color: #45a29e;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.input-box button:hover {
+    background-color: #66fcf1;
+}
+
+.footer {
+    text-align: center;
+    padding: 10px;
+    font-size: 14px;
+    background-color: #1f2833;
+    color: #ccc;
+    border-top: 1px solid #29303d;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}

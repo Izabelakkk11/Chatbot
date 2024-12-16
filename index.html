@@ -1,0 +1,145 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Integration and Architecture Chatbot</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    
+    <div class="chat-container">
+        <div class="header">
+            <i class="fas fa-project-diagram java-icon"></i> Systems Integration Chatbot
+        </div>
+        <div id="particles-js"></div>
+        <div class="chat-box">
+            <ul class="messages" id="messageList">
+                <li class="bot-msg">
+                    <span class="message">Hello! I am your Systems Integration assistant. How can I assist you today?</span>
+                </li>
+            </ul>
+
+            <div class="input-box">
+                <input type="text" id="userMessage" placeholder="Ask me anything about system architecture...">
+                <button id="sendMessage">Send</button>
+            </div>
+        </div>
+
+        <div class="footer">
+            Powered by Flask and Gemini AI | Modern Systems Theme
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script>
+        particlesJS('particles-js', {
+            particles: {
+                number: { value: 100, density: { enable: true, value_area: 800 } },
+                color: { value: "#45a29e" },
+                shape: { type: "circle" },
+                opacity: { value: 0.5, random: true },
+                size: { value: 3, random: true },
+                line_linked: { enable: true, distance: 170, color: "#45a29e", opacity: 0.4, width: 1 },
+                move: { enable: true, speed: 2, direction: "none", random: false, straight: false, out_mode: "out" }
+            },
+            interactivity: {
+                detect_on: "canvas",
+                events: {
+                    onhover: { enable: true, mode: "repulse" },
+                    onclick: { enable: true, mode: "push" }
+                },
+                modes: {
+                    repulse: { distance: 50, duration: 0.4 },
+                    push: { particles_nb: 4 }
+                }
+            },
+            retina_detect: true
+        });
+$(document).ready(function () {
+    var isScrolling = false;
+    $('#messageList').on('scroll', function () {
+        if (!isScrolling) {
+            isScrolling = true;
+            $('.chat-box').css('overflow-y', 'scroll'); 
+        }
+    });
+
+    var scrollTimeout;
+    $('#messageList').on('scroll', function () {
+        clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(function () {
+            isScrolling = false;
+            $('.chat-box').css('overflow-y', 'hidden'); 
+        }, 1000); 
+    });
+
+    $('#sendMessage').click(function () {
+        var userMessage = $('#userMessage').val();
+        if (userMessage.trim() === '') return;
+
+        appendMessage(userMessage, 'user-msg');
+        $('#userMessage').val('');
+        scrollToBottom();
+
+        $.ajax({
+            url: '/chat',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({ message: userMessage }),
+            success: function (data) {
+                var messageElement = $('<li class="bot-msg"><span class="message"></span></li>');
+                $('#messageList').append(messageElement);
+                typeWriter($(messageElement).find('.message'), data.response);
+            },
+            error: function () {
+                appendMessage("Sorry, something went wrong. Please try again later.", 'bot-msg');
+                scrollToBottom();
+            }
+        });
+    });
+
+    $('#userMessage').keypress(function (e) {
+        if (e.which === 13) {
+            $('#sendMessage').click();
+        }
+    });
+
+    function appendMessage(message, sender) {
+        var messageElement = $('<li class="' + sender + '"><span class="message">' + message + '</span></li>');
+        $('#messageList').append(messageElement);
+    }
+
+    function scrollToBottom() {
+        $('#messageList').scrollTop($('#messageList')[0].scrollHeight);
+    }
+
+    function typeWriter(element, text, i = 0) {
+        if (i < text.length) {
+            if (window.requestIdleCallback) {
+                requestIdleCallback(function() {
+                    element.html(element.html() + text.charAt(i));
+                    i++;
+                    setTimeout(() => typeWriter(element, text, i), 15);
+                    scrollToBottom();
+                });
+            } else {
+                setTimeout(function() {
+                    element.html(element.html() + text.charAt(i));
+                    i++;
+                    setTimeout(() => typeWriter(element, text, i), 15);
+                    scrollToBottom();
+                }, 0);
+            }
+        } else {
+            scrollToBottom();
+        }
+    }
+
+});
+    </script>
+</body>
+</html>
